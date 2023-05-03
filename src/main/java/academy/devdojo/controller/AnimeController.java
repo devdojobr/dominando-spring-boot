@@ -1,10 +1,13 @@
 package academy.devdojo.controller;
 
 import academy.devdojo.domain.Anime;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 @RequestMapping(path = {"v1/animes", "v1/animes/"})
@@ -26,5 +29,12 @@ public class AnimeController {
                 .filter(anime -> anime.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+    // Idempotência
+    @PostMapping
+    public Anime save(@RequestBody Anime anime) {
+        anime.setId(ThreadLocalRandom.current().nextLong(100_000));
+        Anime.getAnimes().add(anime);
+        return anime;
     }
 }
