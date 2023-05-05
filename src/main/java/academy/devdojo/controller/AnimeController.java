@@ -59,4 +59,18 @@ public class AnimeController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.info("Request received to delete the anime by id '{}'", id);
+
+        var animeFound = Anime.getAnimes()
+                .stream()
+                .filter(anime -> anime.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
+
+        Anime.getAnimes().remove(animeFound);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

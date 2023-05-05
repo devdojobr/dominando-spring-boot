@@ -50,13 +50,13 @@ public class ProducerController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("Request received to delete the producer by id '{}'", id);
 
-        var producer = Producer.getProducers()
+        var producerFound = Producer.getProducers()
                 .stream()
-                .filter(anime -> anime.getId().equals(id))
+                .filter(producer -> producer.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
 
-        Producer.getProducers().remove(producer);
+        Producer.getProducers().remove(producerFound);
         return ResponseEntity.noContent().build();
     }
 }
