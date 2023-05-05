@@ -33,7 +33,7 @@ public class CustomerController {
     //http://localhost:8080/v1/customers?name=William
     //http://localhost:8080/v1/customers/{customerId}/payments/{paymentId}
     @GetMapping("{name}")
-    public String findByName(@PathVariable String name){
+    public String findByName(@PathVariable String name) {
         return NAMES.stream().filter(n -> n.equalsIgnoreCase(name))
                 .findFirst()
                 .orElseGet(() -> "");
