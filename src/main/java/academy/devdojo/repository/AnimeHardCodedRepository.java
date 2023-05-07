@@ -1,11 +1,13 @@
 package academy.devdojo.repository;
 
 import academy.devdojo.domain.Anime;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AnimeHardCodedRepository {
     private static final List<Anime> ANIMES = new ArrayList<>();
 
