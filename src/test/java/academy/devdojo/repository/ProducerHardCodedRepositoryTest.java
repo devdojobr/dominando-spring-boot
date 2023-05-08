@@ -3,9 +3,7 @@ package academy.devdojo.repository;
 
 import academy.devdojo.domain.Producer;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -16,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProducerHardCodedRepositoryTest {
     @InjectMocks
     private ProducerHardCodedRepository repository;
@@ -34,8 +33,41 @@ class ProducerHardCodedRepositoryTest {
     }
     @Test
     @DisplayName("findAll() returns a list with all producers")
+    @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful(){
         var producers = repository.findAll();
-        Assertions.assertThat(producers).hasSize(3);
+        Assertions.assertThat(producers).hasSameElementsAs(this.producers);
+    }
+
+    @Test
+    @DisplayName("findById() returns an object with given id")
+    @Order(2)
+    void findById_ReturnsAProducer_WhenSuccessful(){
+        var producerOptional = repository.findById(3L);
+        Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
+    }
+
+    @Test
+    @DisplayName("findByName() returns all producers when name is null")
+    @Order(3)
+    void findByName_ReturnsAllProducers_WhenNameIsNull(){
+        var producers = repository.findByName(null);
+        Assertions.assertThat(producers).hasSameElementsAs(this.producers);
+    }
+
+    @Test
+    @DisplayName("findByName() returns list with filtered producers name is not null")
+    @Order(4)
+    void findByName_ReturnsFilteredProducers_WhenNameIsNotNull(){
+        var producers = repository.findByName("Ufotable");
+        Assertions.assertThat(producers).hasSize(1).contains(this.producers.get(0));
+    }
+
+    @Test
+    @DisplayName("findByName() returns empty list when no producer is found")
+    @Order(5)
+    void findByName_ReturnsEmptyListOfProducers_WhenNothingIsFound(){
+        var producers = repository.findByName("XXXX");
+        Assertions.assertThat(producers).isNotNull().isEmpty();
     }
 }
