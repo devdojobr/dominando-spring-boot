@@ -1,4 +1,4 @@
-# Exercise 6 - Dependency Injection
+# Exercise 8 - Dependency Injection
 
 Refactor the Anime domain, so all the classes will rely on Dependency Injection
 

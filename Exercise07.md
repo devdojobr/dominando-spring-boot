@@ -1,4 +1,4 @@
-# Exercise 6 - MVC
+# Exercise 7 - MVC
 
 Using the MVC pattern, refactor the AnimeController to use AnimeService and
 AnimeHardCodedRepository

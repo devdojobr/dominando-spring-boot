@@ -57,7 +57,7 @@ class ProducerHardCodedRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByName() returns list with filtered producers name is not null")
+    @DisplayName("findByName() returns list with filtered producers when name is not null")
     @Order(4)
     void findByName_ReturnsFilteredProducers_WhenNameIsNotNull(){
         var producers = repository.findByName("Ufotable");
