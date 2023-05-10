@@ -124,7 +124,7 @@ class ProducerServiceTest {
     }
 
     @Test
-    @DisplayName("delete() removes throw ResponseStatusException when no producer is found")
+    @DisplayName("delete() throw ResponseStatusException when no producer is found")
     @Order(8)
     void delete_ThrowsResponseStatusException_WhenNoProducerIsFound(){
         var id = 1L;
