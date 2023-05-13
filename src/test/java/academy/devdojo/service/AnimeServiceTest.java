@@ -83,9 +83,9 @@ class AnimeServiceTest {
     }
 
     @Test
-    @DisplayName("findById() throw ResponseStatusException when no producer is found")
+    @DisplayName("findById() throw ResponseStatusException when no anime is found")
     @Order(5)
-    void findById_ThrowsResponseStatusException_WhenNoProducerIsFound() {
+    void findById_ThrowsResponseStatusException_WhenNoAnimeIsFound() {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
         Assertions
