@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: anime-service
+
+server:
+  port: 9090
+  servlet:
+    context-path: /${spring.application.name}
+
+logging:
+  level:
+    root: INFO
+    academy.devdojo: INFO
