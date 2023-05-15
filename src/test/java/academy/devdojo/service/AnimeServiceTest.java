@@ -1,5 +1,6 @@
 package academy.devdojo.service;
 
+import academy.devdojo.commons.AnimeUtils;
 import academy.devdojo.domain.Anime;
 import academy.devdojo.repository.AnimeHardCodedRepository;
 import org.assertj.core.api.Assertions;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +23,13 @@ class AnimeServiceTest {
     private AnimeService service;
     @Mock
     private AnimeHardCodedRepository repository;
-
+    @InjectMocks
+    private AnimeUtils animeUtils;
     private List<Anime> animes;
 
     @BeforeEach
     void init() {
-        var shingekiNoKyojin = Anime.builder().id(1L).name("ShingekiNoKyojin").build();
-        var steinsGate = Anime.builder().id(2L).name("Steins Gate").build();
-        var mashle = Anime.builder().id(3L).name("Mashle").build();
-        animes = new ArrayList<>(List.of(shingekiNoKyojin, steinsGate, mashle));
+        animes = animeUtils.newAnimeList();
     }
 
     @Test
@@ -97,11 +95,8 @@ class AnimeServiceTest {
     @Test
     @DisplayName("save() creates anime")
     @Order(6)
-    void save_CreatesAnime_WhenSuccessful(){
-        var animeToSave = Anime.builder()
-                .id(99L)
-                .name("Hajime No Ippo")
-                .build();
+    void save_CreatesAnime_WhenSuccessful() {
+        var animeToSave = animeUtils.newAnimeToSave();
 
         BDDMockito.when(repository.save(animeToSave)).thenReturn(animeToSave);
         var anime = service.save(animeToSave);
@@ -114,7 +109,7 @@ class AnimeServiceTest {
     @Test
     @DisplayName("delete() removes an anime")
     @Order(7)
-    void delete_RemovesAnime_WhenSuccessful(){
+    void delete_RemovesAnime_WhenSuccessful() {
         var id = 1L;
         var animeToDelete = this.animes.get(0);
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(animeToDelete));
@@ -126,7 +121,7 @@ class AnimeServiceTest {
     @Test
     @DisplayName("delete() throw ResponseStatusException when no anime is found")
     @Order(8)
-    void delete_ThrowsResponseStatusException_WhenNoAnimeIsFound(){
+    void delete_ThrowsResponseStatusException_WhenNoAnimeIsFound() {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
@@ -138,7 +133,7 @@ class AnimeServiceTest {
     @Test
     @DisplayName("update() update an anime")
     @Order(9)
-    void update_UpdateAnime_WhenSuccessful(){
+    void update_UpdateAnime_WhenSuccessful() {
         var id = 1L;
         var animeToUpdate = this.animes.get(0);
         animeToUpdate.setName("DBZ");
@@ -152,7 +147,7 @@ class AnimeServiceTest {
     @Test
     @DisplayName("update() throw ResponseStatusException when no anime is found")
     @Order(10)
-    void update_ThrowsResponseStatusException_WhenNoAnimeIsFound(){
+    void update_ThrowsResponseStatusException_WhenNoAnimeIsFound() {
         var id = 1L;
         var animeToUpdate = this.animes.get(0);
         animeToUpdate.setName("Naruto");

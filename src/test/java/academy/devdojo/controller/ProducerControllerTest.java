@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(ProducerController.class)
 class ProducerControllerTest {
+    private static final String URL = "/v1/producers";
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -33,7 +34,6 @@ class ProducerControllerTest {
     private FileUtils fileUtils;
     @Autowired
     private ProducerUtils producerUtils;
-    private static final String URL = "/v1/producers";
 
     @BeforeEach
     void init() {
