@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 @WebMvcTest(ProducerController.class)
+//@ActiveProfiles("test")
 class ProducerControllerTest {
     private static final String URL = "/v1/producers";
     @Autowired

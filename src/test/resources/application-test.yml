@@ -1,0 +1,4 @@
+database:
+  url: test2222:3306
+  username: test
+  password: devdojo
