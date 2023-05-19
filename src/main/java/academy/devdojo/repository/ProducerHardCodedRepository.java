@@ -15,7 +15,7 @@ import java.util.Optional;
 @Log4j2
 public class ProducerHardCodedRepository {
     private final ProducerData producerData;
-    @Qualifier(value = "mongoDB")
+    @Qualifier(value = "connectionMySql")
     private final Connection connection;
 
     public List<Producer> findAll() {

@@ -16,7 +16,7 @@ public class BeanConfig {
     private String password;
     @Bean
 //    @Primary
-    @Profile("mysql")
+//    @Profile("mysql")
     public Connection connectionMySql(){
         return new Connection(url, username, password);
     }
