@@ -1,10 +1,12 @@
 package academy.devdojo.commons;
 
 import academy.devdojo.domain.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class UserUtils {
     public List<User> newUserList() {
         var ichigo = User.builder().id(1L).firstName("Ichigo").lastName("Kurosaki").email("ichigo.kurosaki@bleach.com").build();
