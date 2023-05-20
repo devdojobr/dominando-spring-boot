@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,9 +18,10 @@ public class UserHardCodedRepository {
         return userData.getUsers();
     }
 
-//    public Optional<User> findById(Long id) {
-//        return userData.getProducers().stream().filter(producer -> producer.getId().equals(id)).findFirst();
-//    }
+    public Optional<User> findById(Long id) {
+        return userData.getUsers().stream().filter(user -> user.getId().equals(id)).findFirst();
+    }
+
 //
 //    public List<User> findByName(String name) {
 //        log.info(connection);

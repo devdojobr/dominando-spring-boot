@@ -3,14 +3,19 @@ package academy.devdojo.service;
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.domain.User;
 import academy.devdojo.repository.UserHardCodedRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -35,6 +40,32 @@ class UserServiceTest {
         BDDMockito.when(repository.findAll()).thenReturn(this.users);
 
         var users = service.findAll();
-        org.assertj.core.api.Assertions.assertThat(users).hasSameElementsAs(this.users);
+        assertThat(users).hasSameElementsAs(this.users);
+    }
+
+    @Test
+    @DisplayName("findById() returns a optional user when id exists")
+    @Order(2)
+    void findById_ReturnsOptionalUser_WhenIdExists() {
+        var id = 1L;
+        var userExpected = this.users.get(0);
+
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(userExpected));
+
+        var userOptional = service.findById(id);
+
+        assertThat(userOptional).isEqualTo(userExpected);
+    }
+
+    @Test
+    @DisplayName("findById() throw ResponseStatusException when no user is found")
+    @Order(3)
+    void findById_ThrowsResponseStatusException_WhenNoUserIsFound() {
+        var id = 1L;
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
+        Assertions
+                .assertThatException()
+                .isThrownBy(() -> service.findById(id))
+                .isInstanceOf(ResponseStatusException.class);
     }
 }
