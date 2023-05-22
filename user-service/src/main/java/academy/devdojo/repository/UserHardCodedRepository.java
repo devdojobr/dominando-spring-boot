@@ -22,24 +22,14 @@ public class UserHardCodedRepository {
         return userData.getUsers().stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
-
-    //
-//    public List<User> findByName(String name) {
-//        log.info(connection);
-//        return name == null ? userData.getProducers() :
-//                userData.getProducers().stream()
-//                        .filter(producer -> producer.getName().equalsIgnoreCase(name))
-//                        .toList();
-//    }
-//
     public User save(User user) {
         userData.getUsers().add(user);
         return user;
     }
-//
-//    public void delete(User producer) {
-//        userData.getProducers().remove(producer);
-//    }
+
+    public void delete(User user) {
+        userData.getUsers().remove(user);
+    }
 //
 //    public void update(User producer) {
 //        delete(producer);

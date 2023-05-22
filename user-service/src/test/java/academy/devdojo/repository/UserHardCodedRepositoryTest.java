@@ -60,4 +60,14 @@ class UserHardCodedRepositoryTest {
         var users = repository.findAll();
         Assertions.assertThat(users).contains(userToSave);
     }
+
+    @Test
+    @DisplayName("delete() removes a user")
+    @Order(4)
+    void delete_RemovesUser_WhenSuccessful() {
+        var userToDelete = this.users.get(0);
+        repository.delete(userToDelete);
+
+        Assertions.assertThat(this.users).doesNotContain(userToDelete);
+    }
 }
