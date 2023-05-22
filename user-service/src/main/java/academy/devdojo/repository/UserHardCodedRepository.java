@@ -22,7 +22,8 @@ public class UserHardCodedRepository {
         return userData.getUsers().stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
-//
+
+    //
 //    public List<User> findByName(String name) {
 //        log.info(connection);
 //        return name == null ? userData.getProducers() :
@@ -31,10 +32,10 @@ public class UserHardCodedRepository {
 //                        .toList();
 //    }
 //
-//    public User save(User producer) {
-//        userData.getProducers().add(producer);
-//        return producer;
-//    }
+    public User save(User user) {
+        userData.getUsers().add(user);
+        return user;
+    }
 //
 //    public void delete(User producer) {
 //        userData.getProducers().remove(producer);

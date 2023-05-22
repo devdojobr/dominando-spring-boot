@@ -1,10 +1,13 @@
 package academy.devdojo.controller;
 
 import academy.devdojo.mapper.UserMapper;
-import academy.devdojo.request.UserGetResponse;
+import academy.devdojo.request.UserPostRequest;
+import academy.devdojo.response.UserGetResponse;
+import academy.devdojo.response.UserPostResponse;
 import academy.devdojo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +39,18 @@ public class UserController {
         var response = mapper.toUserGetResponse(userFound);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserPostResponse> save(@RequestBody UserPostRequest request) {
+        log.info("Request received save a user '{}'", request);
+
+        var user = mapper.toUser(request);
+
+        user = userService.save(user);
+
+        var response = mapper.toUserPostResponse(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

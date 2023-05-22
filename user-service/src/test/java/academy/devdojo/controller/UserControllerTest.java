@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -82,12 +83,33 @@ class UserControllerTest {
     @Test
     @DisplayName("findById() throw ResponseStatusException when no user is found")
     @Order(4)
-    void findById_ThrowsResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void findById_ThrowsResponseStatusException_WhenNoUserIsFound() throws Exception {
         BDDMockito.when(userService.findById(ArgumentMatchers.any()))
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", 100L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("save() creates user")
+    @Order(4)
+    void save_CreatesUser_WhenSuccessful() throws Exception {
+        var request = fileUtils.readResourceFile("user/post-request-user-200.json");
+        var response = fileUtils.readResourceFile("user/post-response-user-201.json");
+        var userToSave = userUtils.newUserToSave();
+
+        BDDMockito.when(userService.save(ArgumentMatchers.any())).thenReturn(userToSave);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 }
