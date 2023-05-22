@@ -38,8 +38,8 @@ public class AnimeService {
         repository.update(animeToUpdate);
     }
 
-    private void assertAnimeExists(Anime animeToUpdate) {
-        findById(animeToUpdate.getId());
+    private void assertAnimeExists(Anime anime) {
+        findById(anime.getId());
     }
 
 }

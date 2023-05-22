@@ -97,7 +97,7 @@ class AnimeHardCodedRepositoryTest {
     }
 
     @Test
-    @DisplayName("update() update a anime")
+    @DisplayName("update() update an anime")
     @Order(8)
     void update_UpdateAnime_WhenSuccessful() {
         var animeToUpdate = this.animes.get(0);

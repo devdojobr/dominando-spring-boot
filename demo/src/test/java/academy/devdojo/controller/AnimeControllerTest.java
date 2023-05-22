@@ -123,7 +123,7 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("update() update a anime")
+    @DisplayName("update() update an anime")
     @Order(5)
     void update_UpdateAnime_WhenSuccessful() throws Exception {
         var request = fileUtils.readResourceFile("anime/put-request-anime-200.json");
@@ -154,7 +154,7 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("delete() removes a anime")
+    @DisplayName("delete() removes an anime")
     @Order(7)
     void delete_RemovesAnime_WhenSuccessful() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 1L))
