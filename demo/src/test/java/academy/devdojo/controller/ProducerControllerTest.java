@@ -1,15 +1,17 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.commons.AnimeUtils;
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProducerUtils;
+import academy.devdojo.config.BeanConfig;
+import academy.devdojo.mapper.AnimeMapperImpl;
 import academy.devdojo.mapper.ProducerMapperImpl;
 import academy.devdojo.repository.ProducerData;
 import academy.devdojo.repository.ProducerHardCodedRepository;
+import academy.devdojo.service.AnimeService;
+import academy.devdojo.service.ProducerService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import test.outside.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,8 @@ import java.util.stream.Stream;
 
 @WebMvcTest(ProducerController.class)
 //@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class, ProducerService.class, BeanConfig.class})
 class ProducerControllerTest {
     private static final String URL = "/v1/producers";
     private static final String NAME = "name";

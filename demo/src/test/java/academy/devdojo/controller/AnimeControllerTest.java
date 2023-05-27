@@ -7,10 +7,7 @@ import academy.devdojo.repository.AnimeData;
 import academy.devdojo.repository.AnimeHardCodedRepository;
 import academy.devdojo.service.AnimeService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,6 +30,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @WebMvcTest(AnimeController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, AnimeService.class})
 class AnimeControllerTest {
     private static final String URL = "/v1/animes";
     private static final String NAME = "name";
