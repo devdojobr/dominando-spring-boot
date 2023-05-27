@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @WebMvcTest(AnimeController.class)
-@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, AnimeService.class, AnimeHardCodedRepository.class})
 class AnimeControllerTest {
     private static final String URL = "/v1/animes";
     private static final String NAME = "name";
