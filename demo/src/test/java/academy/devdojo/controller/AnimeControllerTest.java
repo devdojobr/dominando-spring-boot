@@ -104,9 +104,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("findById() throw ResponseStatusException when no anime is found")
+    @DisplayName("findById() throw NotFound when no anime is found")
     @Order(5)
-    void findById_ThrowsResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void findById_ThrowsNotFound_WhenNoAnimeIsFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", 100L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -150,9 +150,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("update() throw ResponseStatusException when no anime is found")
+    @DisplayName("update() throw NotFound when no anime is found")
     @Order(6)
-    void update_ThrowsResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void update_ThrowsNotFound_WhenNoAnimeIsFound() throws Exception {
         var request = fileUtils.readResourceFile("anime/put-request-anime-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -175,9 +175,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("delete() throw ResponseStatusException when no anime is found")
+    @DisplayName("delete() throw NotFound when no anime is found")
     @Order(8)
-    void delete_ThrowsResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void delete_ThrowsNotFound_WhenNoAnimeIsFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 1111L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
