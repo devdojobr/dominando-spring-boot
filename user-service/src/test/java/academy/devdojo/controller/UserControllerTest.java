@@ -35,6 +35,9 @@ import java.util.stream.Stream;
 @Import({UserMapperImpl.class, FileUtils.class, UserUtils.class})
 class UserControllerTest {
     private static final String URL = "/v1/users";
+    private static final String EMAIL = "email";
+    private static final String FIRST_NAME = "firstName";
+    private static final String LAST_NAME = "lastName";
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -43,9 +46,6 @@ class UserControllerTest {
     private FileUtils fileUtils;
     @Autowired
     private UserUtils userUtils;
-    private static final String EMAIL = "email";
-    private static final String FIRST_NAME = "firstName";
-    private static final String LAST_NAME = "lastName";
 
     @Test
     @DisplayName("findAll() returns a list with all users")
