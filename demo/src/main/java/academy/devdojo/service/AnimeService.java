@@ -1,7 +1,6 @@
 package academy.devdojo.service;
 
 import academy.devdojo.domain.Anime;
-import academy.devdojo.exception.CustomNotFoundException;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.AnimeHardCodedRepository;
 import lombok.RequiredArgsConstructor;

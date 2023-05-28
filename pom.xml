@@ -10,6 +10,7 @@
     <modules>
         <module>demo</module>
         <module>user-service</module>
+        <module>commons-core</module>
     </modules>
     <properties>
         <java.version>17</java.version>
