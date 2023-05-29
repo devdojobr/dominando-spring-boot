@@ -140,6 +140,7 @@ class ProducerControllerTest {
     @Order(6)
     void update_ThrowsNotFound_WhenNoProducerIsFound() throws Exception {
         var request = fileUtils.readResourceFile("producer/put-request-producer-404.json");
+        var response = fileUtils.readResourceFile("producer/put-response-not-found-error-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(URL)
@@ -148,7 +149,7 @@ class ProducerControllerTest {
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be updated"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -164,10 +165,12 @@ class ProducerControllerTest {
     @DisplayName("delete() throw NotFound when no producer is found")
     @Order(8)
     void delete_ThrowsNotFound_WhenNoProducerIsFound() throws Exception {
+        var response = fileUtils.readResourceFile("producer/delete-response-not-found-error-404.json");
+
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 1111L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be deleted"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @ParameterizedTest
