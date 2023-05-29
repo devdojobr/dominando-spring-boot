@@ -2,6 +2,7 @@ package academy.devdojo.service;
 
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.domain.User;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.UserHardCodedRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -58,15 +59,15 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("findById() throw ResponseStatusException when no user is found")
+    @DisplayName("findById() throw NotFoundException when no user is found")
     @Order(3)
-    void findById_ThrowsResponseStatusException_WhenNoUserIsFound() {
+    void findById_ThrowsNotFoundException_WhenNoUserIsFound() {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
         Assertions
                 .assertThatException()
                 .isThrownBy(() -> service.findById(id))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -96,15 +97,15 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("delete() throw ResponseStatusException when no user is found")
+    @DisplayName("delete() throw NotFoundException when no user is found")
     @Order(6)
-    void delete_ThrowsResponseStatusException_WhenNoUserIsFound() {
+    void delete_ThrowsNotFoundException_WhenNoUserIsFound() {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
         Assertions.assertThatException()
                 .isThrownBy(() -> service.delete(id))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -122,9 +123,9 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("update() throw ResponseStatusException when no user is found")
+    @DisplayName("update() throw NotFoundException when no user is found")
     @Order(8)
-    void update_ThrowsResponseStatusException_WhenNoUserIsFound() {
+    void update_ThrowsNotFoundException_WhenNoUserIsFound() {
         var id = 1L;
         var userToUpdate = this.users.get(0);
         userToUpdate.setFirstName("Naruto");
@@ -133,6 +134,6 @@ class UserServiceTest {
 
         Assertions.assertThatException()
                 .isThrownBy(() -> service.update(userToUpdate))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 }

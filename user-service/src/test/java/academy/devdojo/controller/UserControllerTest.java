@@ -2,6 +2,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.UserMapperImpl;
 import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -17,13 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +37,7 @@ class UserControllerTest {
     private static final String EMAIL = "email";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
+    private static final String USER_NOT_FOUND = "User not found";
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -95,15 +95,17 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("findById() throw ResponseStatusException when no user is found")
+    @DisplayName("findById() throw NotFoundException when no user is found")
     @Order(4)
-    void findById_ThrowsResponseStatusException_WhenNoUserIsFound() throws Exception {
+    void findById_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
+        var response = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
         BDDMockito.when(userService.findById(ArgumentMatchers.any()))
-                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .thenThrow(new NotFoundException(USER_NOT_FOUND));
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", 100L))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -140,16 +142,18 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("delete() throw ResponseStatusException when no user is found")
+    @DisplayName("delete() throw NotFoundException when no user is found")
     @Order(6)
-    void delete_ThrowsResponseStatusException_WhenNoUserIsFound() throws Exception {
+    void delete_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
         var id = 1111L;
-        BDDMockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND))
+        var response = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+        BDDMockito.doThrow(new NotFoundException(USER_NOT_FOUND))
                 .when(userService).delete(id);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 1111L))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -170,11 +174,13 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("update() throw ResponseStatusException when no user is found")
+    @DisplayName("update() throw NotFoundException when no user is found")
     @Order(8)
-    void update_ThrowsResponseStatusException_WhenNoUserIsFound() throws Exception {
+    void update_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
-        BDDMockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND))
+        var response = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+
+        BDDMockito.doThrow(new NotFoundException(USER_NOT_FOUND))
                 .when(userService)
                 .update(ArgumentMatchers.any());
 
@@ -184,7 +190,8 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
 

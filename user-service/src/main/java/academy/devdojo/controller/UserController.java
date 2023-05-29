@@ -22,6 +22,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
+
     @GetMapping
     public ResponseEntity<List<UserGetResponse>> list() {
         log.debug("Request received to list all users");
