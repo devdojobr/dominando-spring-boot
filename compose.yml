@@ -4,9 +4,9 @@ services:
   mysql:
     image: mysql:8.0.33
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_USER: william
-      MYSQL_PASSWORD: devdojo
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_USER: ${REGULAR_USER}
+      MYSQL_PASSWORD: ${REGULAR_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
