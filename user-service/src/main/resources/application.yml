@@ -6,7 +6,9 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/user_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: ${ROOT_USER}
-    password: ${ROOT_PASSWORD}
+    username: ${ROOT_USER:root}
+    password: ${ROOT_PASSWORD:example}
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
