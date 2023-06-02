@@ -8,6 +8,8 @@ import lombok.*;
 @Builder
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User {
     @EqualsAndHashCode.Include
