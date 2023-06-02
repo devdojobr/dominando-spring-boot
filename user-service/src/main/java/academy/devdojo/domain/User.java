@@ -10,6 +10,7 @@ import lombok.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 @Entity
 public class User {
     @EqualsAndHashCode.Include
