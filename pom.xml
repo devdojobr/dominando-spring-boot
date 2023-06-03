@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>demo</module>
+        <module>anime-service</module>
         <module>user-service</module>
         <module>commons-core</module>
     </modules>

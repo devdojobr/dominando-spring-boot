@@ -3,9 +3,7 @@ package academy.devdojo.repository;
 import academy.devdojo.domain.Producer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import test.outside.Connection;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +13,6 @@ import java.util.Optional;
 @Log4j2
 public class ProducerHardCodedRepository {
     private final ProducerData producerData;
-    @Qualifier(value = "connectionMySql")
-    private final Connection connection;
 
     public List<Producer> findAll() {
         return producerData.getProducers();
@@ -27,7 +23,6 @@ public class ProducerHardCodedRepository {
     }
 
     public List<Producer> findByName(String name) {
-        log.info(connection);
         return name == null ? producerData.getProducers() :
                 producerData.getProducers().stream()
                         .filter(producer -> producer.getName().equalsIgnoreCase(name))

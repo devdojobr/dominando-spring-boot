@@ -1,4 +1,0 @@
-database:
-  url: localhost:27017
-  username: mongo
-  password: devdojo

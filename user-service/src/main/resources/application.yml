@@ -4,6 +4,8 @@ server:
     include-stacktrace: NEVER
 
 spring:
+  application:
+    name: user-service
   datasource:
     url: jdbc:mysql://localhost:3306/user_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${ROOT_USER:root}
