@@ -150,7 +150,7 @@ class UserControllerTest {
         BDDMockito.doThrow(new NotFoundException(USER_NOT_FOUND))
                 .when(userService).delete(id);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 1111L))
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().json(response));
