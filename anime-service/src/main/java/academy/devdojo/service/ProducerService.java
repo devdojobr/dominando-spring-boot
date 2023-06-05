@@ -2,7 +2,6 @@ package academy.devdojo.service;
 
 import academy.devdojo.domain.Producer;
 import academy.devdojo.exception.NotFoundException;
-import academy.devdojo.repository.ProducerHardCodedRepository;
 import academy.devdojo.repository.ProducerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,9 +33,10 @@ public class ProducerService {
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = findById(producerToUpdate.getId())
-                .orElseThrow(() -> new NotFoundException("Producer not found to be updated"));
-        producerToUpdate.setCreatedAt(producer.getCreatedAt());
-        repository.save(producerToUpdate);
+        findById(producerToUpdate.getId())
+                .ifPresentOrElse(p -> repository.save(producerToUpdate), () -> {
+                            throw new NotFoundException("Producer not found to be updated");
+                        });
+
     }
 }
