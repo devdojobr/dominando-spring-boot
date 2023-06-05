@@ -27,7 +27,7 @@ public class AnimeController {
 
     @GetMapping
     public ResponseEntity<List<AnimeGetResponse>> list(@RequestParam(required = false) String name) {
-        log.error("Request received to list all animes, param name '{}'", name);
+        log.info("Request received to list all animes, param name '{}'", name);
 
         var animes = animeService.findAll(name);
 
