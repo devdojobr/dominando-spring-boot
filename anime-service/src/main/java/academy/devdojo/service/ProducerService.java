@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static academy.devdojo.util.Constants.PRODUCER_NOT_FOUND_DELETED;
+import static academy.devdojo.util.Constants.PRODUCER_NOT_FOUND_UPDATED;
+
 @Service
 @RequiredArgsConstructor
 public class ProducerService {
@@ -28,14 +31,14 @@ public class ProducerService {
     }
 
     public void delete(Long id) {
-        var producer = findById(id).orElseThrow(() -> new NotFoundException("Producer not found to be deleted"));
+        var producer = findById(id).orElseThrow(() -> new NotFoundException(PRODUCER_NOT_FOUND_DELETED));
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
         findById(producerToUpdate.getId())
                 .ifPresentOrElse(p -> repository.save(producerToUpdate), () -> {
-                            throw new NotFoundException("Producer not found to be updated");
+                            throw new NotFoundException(PRODUCER_NOT_FOUND_UPDATED);
                         });
 
     }

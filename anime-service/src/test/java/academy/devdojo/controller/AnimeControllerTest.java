@@ -169,7 +169,7 @@ class AnimeControllerTest {
     @Test
     @DisplayName("update() throw NotFoundException when no anime is found")
     @Order(6)
-    void update_ThrowsNotFound_WhenNoAnimeIsFound() throws Exception {
+    void update_ThrowsNotFoundException_WhenNoAnimeIsFound() throws Exception {
         var request = fileUtils.readResourceFile("anime/put-request-anime-404.json");
         var response = fileUtils.readResourceFile("anime/anime-response-not-found-error-404.json");
 
@@ -200,7 +200,7 @@ class AnimeControllerTest {
     @Test
     @DisplayName("delete() throw NotFoundException when no anime is found")
     @Order(8)
-    void delete_ThrowsNotFound_WhenNoAnimeIsFound() throws Exception {
+    void delete_ThrowsNotFoundException_WhenNoAnimeIsFound() throws Exception {
         var id = 1111L;
         var response = fileUtils.readResourceFile("anime/anime-response-not-found-error-404.json");
         BDDMockito.doThrow(new NotFoundException(ANIME_NOT_FOUND))

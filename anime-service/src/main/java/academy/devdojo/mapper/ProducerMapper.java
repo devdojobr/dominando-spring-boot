@@ -14,9 +14,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProducerMapper {
-    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     Producer toProducer(ProducerPostRequest request);
-
     Producer toProducer(ProducerPutRequest request);
     ProducerPostResponse toProducerPostResponse(Producer producer);
     List<ProducerGetResponse> toProducerGetResponses(List<Producer> producers);
