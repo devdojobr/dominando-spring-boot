@@ -1,7 +1,5 @@
 package academy.devdojo.controller;
 
-import academy.devdojo.exception.DefaultErrorMessage;
-import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.AnimeMapper;
 import academy.devdojo.request.AnimePostRequest;
 import academy.devdojo.request.AnimePutRequest;
@@ -11,6 +9,7 @@ import academy.devdojo.service.AnimeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,15 @@ public class AnimeController {
         var animeGetResponses = mapper.toAnimeGetResponses(animes);
 
         return ResponseEntity.ok(animeGetResponses);
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<List<AnimeGetResponse>> list(Pageable pageable) {
+        log.info("Request received to list all animes paginated");
+
+        var pageAnimeGetResponse = animeService.findAllPageable(pageable).map(mapper::toAnimeGetResponse);
+
+        return ResponseEntity.ok(pageAnimeGetResponse.getContent());
     }
 
     @GetMapping("{id}")
