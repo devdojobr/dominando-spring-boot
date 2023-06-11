@@ -9,6 +9,7 @@ import academy.devdojo.service.AnimeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class AnimeController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<List<AnimeGetResponse>> list(Pageable pageable) {
+    public ResponseEntity<Page<AnimeGetResponse>> list(Pageable pageable) {
         log.info("Request received to list all animes paginated");
 
         var pageAnimeGetResponse = animeService.findAllPageable(pageable).map(mapper::toAnimeGetResponse);
 
-        return ResponseEntity.ok(pageAnimeGetResponse.getContent());
+        return ResponseEntity.ok(pageAnimeGetResponse);
     }
 
     @GetMapping("{id}")
