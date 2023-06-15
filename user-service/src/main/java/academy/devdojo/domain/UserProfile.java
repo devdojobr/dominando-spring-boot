@@ -12,16 +12,13 @@ import lombok.*;
 @AllArgsConstructor
 @With
 @Entity
-public class User {
+public class UserProfile {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String firstName;
-    @Column(nullable = false)
-    private String lastName;
-    @Column(nullable = false, unique = true)
-    private String email;
-
+    @ManyToOne(optional = false)
+    private User user;
+    @ManyToOne(optional = false)
+    private Profile profile;
 }
