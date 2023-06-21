@@ -1,5 +1,6 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.domain.User;
 import academy.devdojo.domain.UserProfile;
 import academy.devdojo.mapper.ProfileMapper;
 import academy.devdojo.service.UserProfileService;
@@ -24,6 +25,15 @@ public class UserProfileController {
         var userProfiles = userProfileService.findAll();
 
         return ResponseEntity.ok(userProfiles);
+    }
+
+    @GetMapping("profiles/{id}/users")
+    public ResponseEntity<List<User>> listAllUsersByProfileId(@PathVariable Long id) {
+        log.debug("Request received to list all user users by profile id '{}'", id);
+
+        var user = userProfileService.findAllUsersByProfileId(id);
+
+        return ResponseEntity.ok(user);
     }
 
 }
