@@ -23,4 +23,13 @@ public class UserUtils {
                 .email("ash.ketchum@pokemon.com")
                 .build();
     }
+
+    public User newUserSaved() {
+        return User.builder()
+                .id(99L)
+                .firstName("Ash")
+                .lastName("Ketchum")
+                .email("ash.ketchum@pokemon.com")
+                .build();
+    }
 }
