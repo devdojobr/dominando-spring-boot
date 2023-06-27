@@ -7,6 +7,8 @@ spring:
     username: sa
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false;MODE=MySQL;DATABASE_TO_LOWER=true
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         globally_quoted_identifiers: true
