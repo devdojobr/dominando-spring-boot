@@ -1,19 +1,24 @@
 package academy.devdojo.repository;
 
 import academy.devdojo.commons.UserUtils;
+import academy.devdojo.config.IntegrationTestContainers;
+import academy.devdojo.config.MyTestContainersConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(UserUtils.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class UserProfileRepositoryTest {
+class UserProfileRepositoryTest implements IntegrationTestContainers {
     @Autowired
     private UserProfileRepository repository;
     @Autowired
@@ -33,4 +38,10 @@ class UserProfileRepositoryTest {
         users.forEach(user -> Assertions.assertThat(user).hasNoNullFieldsOrProperties());
     }
 
+    @DynamicPropertySource
+    static void mysqlProperties(DynamicPropertyRegistry registry){
+        registry.add("spring.datasource.url", mySqlContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySqlContainer::getUsername);
+        registry.add("spring.datasource.password", mySqlContainer::getPassword);
+    }
 }
