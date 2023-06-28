@@ -1,1 +1,1 @@
-INSERT INTO "user" (first_name,last_name, email) values ('goku','son','goku.son@dbz.com');
+INSERT INTO user (first_name,last_name, email) values ('goku','son','goku.son@dbz.com');

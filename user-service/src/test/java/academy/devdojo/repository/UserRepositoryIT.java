@@ -1,6 +1,7 @@
 package academy.devdojo.repository;
 
 import academy.devdojo.commons.UserUtils;
+import academy.devdojo.config.IntegrationTestContainers;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 @Import(UserUtils.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 //@Transactional(propagation = Propagation.NOT_SUPPORTED)
-class UserRepositoryTest {
+class UserRepositoryIT extends IntegrationTestContainers {
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -37,5 +38,7 @@ class UserRepositoryTest {
         var users = repository.findAll();
         Assertions.assertThat(users).isNotEmpty();
     }
+
+
 
 }

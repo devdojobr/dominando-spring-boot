@@ -6,7 +6,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.MySQLContainer;
 
-import static academy.devdojo.config.IntegrationTestContainers.mySqlContainer;
+import static academy.devdojo.config.IntegrationTestContainers.MY_SQL_CONTAINER;
 
 @TestConfiguration(proxyBeanMethods = false)
 @ImportTestcontainers(IntegrationTestContainers.class)
@@ -15,7 +15,7 @@ public class MyTestContainersConfiguration {
     @Bean
     @ServiceConnection
     public MySQLContainer<?> mySqlContainer() {
-        return mySqlContainer;
+        return MY_SQL_CONTAINER;
     }
 
 }

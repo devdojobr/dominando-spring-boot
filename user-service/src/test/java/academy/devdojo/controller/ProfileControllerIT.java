@@ -1,6 +1,7 @@
 package academy.devdojo.controller;
 
 import academy.devdojo.commons.ProfileUtils;
+import academy.devdojo.config.IntegrationTestContainers;
 import academy.devdojo.config.MyTestContainersConfiguration;
 import academy.devdojo.response.ProfileGetResponse;
 import academy.devdojo.response.ProfilePostResponse;
@@ -23,8 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import(MyTestContainersConfiguration.class)
-class ProfileControllerIT {
+class ProfileControllerIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
     @Autowired
     private TestRestTemplate testRestTemplate;
