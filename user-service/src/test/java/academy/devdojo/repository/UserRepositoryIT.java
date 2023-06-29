@@ -40,5 +40,4 @@ class UserRepositoryIT extends IntegrationTestContainers {
     }
 
 
-
 }

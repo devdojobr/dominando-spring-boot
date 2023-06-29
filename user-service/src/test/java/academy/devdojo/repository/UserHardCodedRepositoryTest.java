@@ -24,7 +24,7 @@ class UserHardCodedRepositoryTest {
     private UserUtils userUtils;
 
     @BeforeEach
-    void init(){
+    void init() {
         users = userUtils.newUserList();
 
         BDDMockito.when(userData.getUsers()).thenReturn(users);
@@ -33,7 +33,7 @@ class UserHardCodedRepositoryTest {
     @Test
     @DisplayName("findAll() returns a list with all users")
     @Order(1)
-    void findAll_ReturnsAllUsers_WhenSuccessful(){
+    void findAll_ReturnsAllUsers_WhenSuccessful() {
         var users = repository.findAll();
         Assertions.assertThat(users).hasSameElementsAs(this.users);
     }

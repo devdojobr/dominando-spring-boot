@@ -2,8 +2,6 @@ package academy.devdojo.service;
 
 import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.domain.Profile;
-import academy.devdojo.exception.EmailAlreadyExistsException;
-import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.ProfileRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -14,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
