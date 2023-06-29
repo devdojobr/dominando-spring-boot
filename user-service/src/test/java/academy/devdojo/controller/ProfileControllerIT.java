@@ -3,6 +3,7 @@ package academy.devdojo.controller;
 import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.config.IntegrationTestContainers;
 import academy.devdojo.config.MyTestContainersConfiguration;
+import academy.devdojo.repository.ProfileRepository;
 import academy.devdojo.response.ProfileGetResponse;
 import academy.devdojo.response.ProfilePostResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
@@ -24,12 +26,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class ProfileControllerIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
     @Autowired
     private TestRestTemplate testRestTemplate;
     @Autowired
     private ProfileUtils profileUtils;
+    @Autowired
+    ProfileRepository repository;
 
     @Test
     @DisplayName("findAll() returns a list with all profiles")
