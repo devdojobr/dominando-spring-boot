@@ -2,6 +2,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.config.IntegrationTestContainers;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -12,11 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerRestAssuredIT extends IntegrationTestContainers {
@@ -124,6 +129,66 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
                 .body(Matchers.equalTo(expectedResponse))
                 .log().all();
 
+    }
+
+    @Test
+    @DisplayName("save() creates user")
+    @Order(4)
+    void save_CreatesUser_WhenSuccessful() throws Exception {
+        var request = fileUtils.readResourceFile("user/post-request-user-200.json");
+        var expectedResponse = fileUtils.readResourceFile("user/post-response-user-201.json");
+
+        var response = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .post(URL)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .log().all()
+                .extract().response().body().asString();
+
+        JsonAssertions.assertThatJson(response)
+                .node("id")
+                .asNumber()
+                .isPositive();
+
+        JsonAssertions.assertThatJson(response)
+                .whenIgnoringPaths("id")
+                .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    @DisplayName("delete() removes a user")
+    @Order(5)
+    @Sql("/sql/user/init_one_user.sql")
+    void delete_RemovesUser_WhenSuccessful() throws Exception {
+        var users = repository.findAll();
+        Assertions.assertThat(users).hasSize(1);
+
+        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .when()
+                .delete(URL + "/" + users.get(0).getId())
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .log().all();
+    }
+
+    @Test
+    @DisplayName("delete() throw NotFoundException when no user is found")
+    @Order(6)
+    void delete_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
+        var expectedResponse = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+
+        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .when()
+                .delete(URL + "/92182")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body(Matchers.equalTo(expectedResponse))
+                .log().all();
     }
 }
 
