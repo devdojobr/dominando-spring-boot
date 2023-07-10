@@ -2,9 +2,11 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.config.IntegrationTestContainers;
+import academy.devdojo.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +25,8 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
     private FileUtils fileUtils;
     @LocalServerPort
     private int port;
+    @Autowired
+    private UserRepository repository;
 
     @BeforeEach
     void setUrl() {
@@ -67,33 +71,59 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
         var response = fileUtils.readResourceFile("user/get-all-users-empty-list-200.json");
 
         RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
                 .when()
                 .get(URL)
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body(Matchers.equalTo(response));
+                .body(Matchers.equalTo(response))
+                .log().all();
     }
 
     @Test
     @DisplayName("findById() returns a optional user when id exists")
     @Order(3)
+    @Sql("/sql/user/init_one_user.sql")
     void findById_ReturnsOptionalAnime_WhenIdExists() throws Exception {
-        var id = 1L;
-        var response = fileUtils.readResourceFile("user/get-user-by-id-200.json");
+        var expectedResponse = fileUtils.readResourceFile("user/get-user-by-id-200.json");
+        var users = repository.findAll();
 
-        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+        Assertions.assertThat(users).hasSize(1);
+
+        var response = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
                 .when()
-                .get(URL)
+                .get(URL + "/" + users.get(0).getId())
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body(Matchers.equalTo(response));
+                .log().all()
+                .extract().response().body().asString();
+
+        JsonAssertions.assertThatJson(response)
+                .node("id")
+                .asNumber()
+                .isPositive();
+
+        JsonAssertions.assertThatJson(response)
+                .whenIgnoringPaths("id")
+                .isEqualTo(expectedResponse);
     }
 
     @Test
     @DisplayName("findById() throw NotFoundException when no user is found")
     @Order(4)
     void findById_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
-        var response = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+        var expectedResponse = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+
+        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .when()
+                .get(URL + "/92182")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body(Matchers.equalTo(expectedResponse))
+                .log().all();
 
     }
 }
+

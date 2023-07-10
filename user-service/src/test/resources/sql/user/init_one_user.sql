@@ -1,0 +1,1 @@
+INSERT INTO user (first_name,last_name, email) values ('Ichigo','Kurosaki','ichigo.kurosaki@bleach.com');
