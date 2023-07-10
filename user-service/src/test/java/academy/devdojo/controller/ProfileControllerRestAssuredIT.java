@@ -38,8 +38,6 @@ import java.util.stream.Stream;
 class ProfileControllerRestAssuredIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
     @Autowired
-    private ProfileUtils profileUtils;
-    @Autowired
     private FileUtils fileUtils;
     @LocalServerPort
     private int port;
