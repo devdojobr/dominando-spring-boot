@@ -1,0 +1,59 @@
+{
+  "timestamp": "2023-07-10T17:23:40.340+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed for object='profilePostRequest'. Error count: 2",
+  "errors": [
+    {
+      "codes": [
+        "NotBlank.profilePostRequest.description",
+        "NotBlank.description",
+        "NotBlank.java.lang.String",
+        "NotBlank"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "profilePostRequest.description",
+            "description"
+          ],
+          "arguments": null,
+          "defaultMessage": "description",
+          "code": "description"
+        }
+      ],
+      "defaultMessage": "The field 'description' is required",
+      "objectName": "profilePostRequest",
+      "field": "description",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "NotBlank"
+    },
+    {
+      "codes": [
+        "NotBlank.profilePostRequest.name",
+        "NotBlank.name",
+        "NotBlank.java.lang.String",
+        "NotBlank"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "profilePostRequest.name",
+            "name"
+          ],
+          "arguments": null,
+          "defaultMessage": "name",
+          "code": "name"
+        }
+      ],
+      "defaultMessage": "The field 'name' is required",
+      "objectName": "profilePostRequest",
+      "field": "name",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "NotBlank"
+    }
+  ],
+  "path": "/v1/profiles"
+}
