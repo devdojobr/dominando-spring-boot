@@ -7,21 +7,32 @@ import academy.devdojo.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
+import net.javacrumbs.jsonunit.core.Option;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerRestAssuredIT extends IntegrationTestContainers {
@@ -190,5 +201,84 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
                 .body(Matchers.equalTo(expectedResponse))
                 .log().all();
     }
+
+    @Test
+    @DisplayName("update() update an user")
+    @Order(7)
+    @Sql("/sql/user/init_one_user.sql")
+    void update_UpdateUser_WhenSuccessful() throws Exception {
+        var request = fileUtils.readResourceFile("user/put-request-user-200.json");
+        var users = repository.findAll();
+        Assertions.assertThat(users).hasSize(1);
+
+        request = request.replace("1", users.get(0).getId().toString());
+
+        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .put(URL)
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    @DisplayName("update() throw NotFoundException when no user is found")
+    @Order(8)
+    void update_ThrowsNotFoundException_WhenNoUserIsFound() throws Exception {
+        var request = fileUtils.readResourceFile("user/put-request-user-404.json");
+        var expectedResponse = fileUtils.readResourceFile("user/user-response-not-found-error-404.json");
+
+        RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .put(URL)
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body(Matchers.equalTo(expectedResponse));
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("postUserBadRequestSource")
+    @DisplayName("save() returns bad request when fields are invalid")
+    @Order(9)
+    void save_ReturnsBadRequest_WhenFieldsAreInvalid(String requestFileName, String responseFileName) throws Exception {
+        var request = fileUtils.readResourceFile("user/%s".formatted(requestFileName));
+        var expectedResponse = fileUtils.readResourceFile("user/%s".formatted(responseFileName));
+
+        var response = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .post(URL)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .log().all()
+                .extract().response().body().asString();
+
+        JsonAssertions.assertThatJson(response)
+                .node("timestamp")
+                .asString()
+                .isNotEmpty();
+
+        JsonAssertions.assertThatJson(response)
+                .whenIgnoringPaths("timestamp")
+                .when(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo(expectedResponse);
+    }
+
+    private static Stream<Arguments> postUserBadRequestSource() {
+
+        return Stream.of(
+                Arguments.of("post-request-user-blank-fields-400.json", "post-response-user-blank-fields-400.json"),
+                Arguments.of("post-request-user-empty-fields-400.json", "post-response-user-empty-fields-400.json"),
+                Arguments.of("post-request-user-invalid-email-400.json", "post-response-user-invalid-email-400.json")
+        );
+    }
+
 }
 
