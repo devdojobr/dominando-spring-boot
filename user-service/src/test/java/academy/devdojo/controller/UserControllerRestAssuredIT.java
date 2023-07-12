@@ -280,5 +280,42 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("putUserBadRequestSource")
+    @DisplayName("update() returns bad request when fields are invalid")
+    @Order(10)
+    void update_ReturnsBadRequest_WhenFieldsAreInvalid(String requestFileName, String responseFileName) throws Exception {
+        var request = fileUtils.readResourceFile("user/%s".formatted(requestFileName));
+        var expectedResponse = fileUtils.readResourceFile("user/%s".formatted(responseFileName));
+
+        var response = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .post(URL)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .log().all()
+                .extract().response().body().asString();
+
+        JsonAssertions.assertThatJson(response)
+                .node("timestamp")
+                .asString()
+                .isNotEmpty();
+
+        JsonAssertions.assertThatJson(response)
+                .whenIgnoringPaths("timestamp")
+                .when(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo(expectedResponse);
+    }
+
+    private static Stream<Arguments> putUserBadRequestSource() {
+        return Stream.of(
+                Arguments.of("put-request-user-blank-fields-400.json", "put-response-user-blank-fields-400.json"),
+                Arguments.of("put-request-user-empty-fields-400.json", "put-response-user-empty-fields-400.json"),
+                Arguments.of("put-request-user-invalid-email-400.json", "put-response-user-invalid-email-400.json")
+        );
+    }
+
 }
 
