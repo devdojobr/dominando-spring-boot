@@ -18,9 +18,7 @@ public class ApiError extends DefaultErrorAttributes {
 
     @Override
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
-        var errorAttributes = super.getErrorAttributes(webRequest, options);
-        errorAttributes.put("test", "test");
-        return errorAttributes;
+        return super.getErrorAttributes(webRequest, options);
     }
 
     public String getTimestamp() {
