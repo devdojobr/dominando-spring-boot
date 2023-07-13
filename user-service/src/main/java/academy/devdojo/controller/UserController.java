@@ -6,6 +6,7 @@ import academy.devdojo.request.UserPutRequest;
 import academy.devdojo.response.UserGetResponse;
 import academy.devdojo.response.UserPostResponse;
 import academy.devdojo.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"v1/users", "v1/users/"})
+@RequestMapping(path = {"v1/users"})
 @Log4j2
 @RequiredArgsConstructor
+@Tag(name = "User API", description = "User related endpoints")
 public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
