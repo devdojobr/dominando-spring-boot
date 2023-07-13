@@ -1,5 +1,6 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.exception.ApiError;
 import academy.devdojo.exception.DefaultErrorMessage;
 import academy.devdojo.mapper.UserMapper;
 import academy.devdojo.request.UserPostRequest;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +71,15 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(summary = "Create User",
+            responses = {
+                    @ApiResponse(description = "Save a user in the database",
+                            responseCode = "201",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserPostResponse.class))),
+                    @ApiResponse(description = "Email already exists",
+                            responseCode = "400",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class)))
+            })
     public ResponseEntity<UserPostResponse> save(@RequestBody @Valid UserPostRequest request) {
         log.info("Request received save a user '{}'", request);
 
