@@ -4,6 +4,10 @@ server:
     include-stacktrace: NEVER
 
 spring:
+  security:
+    user:
+      name: user
+      password: devdojo
   application:
     name: user-service
   datasource:
