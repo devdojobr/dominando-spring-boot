@@ -2,7 +2,9 @@ server:
   port: 8090
   error:
     include-stacktrace: NEVER
-
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
 #  security:
 #    user:
