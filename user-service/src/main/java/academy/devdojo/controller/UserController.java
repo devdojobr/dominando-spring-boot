@@ -21,6 +21,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public class UserController {
             responseCode = "200",
             content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserGetResponse.class))))
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserGetResponse>> list() {
         log.debug("Request received to list all users");
 
@@ -110,6 +113,5 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
-
 
 }
