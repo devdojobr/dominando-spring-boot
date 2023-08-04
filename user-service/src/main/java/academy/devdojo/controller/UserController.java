@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Tag(name = "User API", description = "User related endpoints")
+@SecurityRequirement(name = "basicAuth")
 public class UserController {
     private final UserService userService;
     private final UserMapper mapper;

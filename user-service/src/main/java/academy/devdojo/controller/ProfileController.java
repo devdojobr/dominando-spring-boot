@@ -10,6 +10,7 @@ import academy.devdojo.response.ProfilePostResponse;
 import academy.devdojo.response.UserGetResponse;
 import academy.devdojo.response.UserPostResponse;
 import academy.devdojo.service.ProfileService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequestMapping(path = {"v1/profiles", "v1/profiles/"})
 @Log4j2
 @RequiredArgsConstructor
+@SecurityRequirement(name = "basicAuth")
 public class ProfileController {
     private final ProfileService profileService;
     private final ProfileMapper mapper;
