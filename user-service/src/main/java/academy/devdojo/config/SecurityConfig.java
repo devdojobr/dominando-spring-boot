@@ -25,21 +25,21 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 public class SecurityConfig {
     private static final String[] WHITE_LIST = {"/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/csrf"};
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        log.info(passwordEncoder.encode("ippo"));
-        var user = User.withUsername("takamura")
-                .password(passwordEncoder.encode("ippo"))
-                .roles("USER")
-                .build();
-
-        var admin = User.withUsername("admin")
-                .password(passwordEncoder.encode("devdojo"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+//        log.info(passwordEncoder.encode("ippo"));
+//        var user = User.withUsername("takamura")
+//                .password(passwordEncoder.encode("ippo"))
+//                .roles("USER")
+//                .build();
+//
+//        var admin = User.withUsername("admin")
+//                .password(passwordEncoder.encode("devdojo"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user, admin);
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -54,10 +54,5 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

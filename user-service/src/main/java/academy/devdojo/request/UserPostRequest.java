@@ -20,4 +20,6 @@ public class UserPostRequest {
     @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,8}$", message = "The email format is not valid")
     @Schema(description = "User's email", example = "gojou.satoru@jujutsu.com")
     private String email;
+    @NotBlank(message = "The field 'password' is required")
+    private String password;
 }
