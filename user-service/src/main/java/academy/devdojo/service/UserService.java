@@ -34,9 +34,15 @@ public class UserService {
         repository.delete(user);
     }
 
-    public void update(User userToUpdate) {
-        assertUserExists(userToUpdate);
-        assertEmailIsUnique(userToUpdate.getEmail(), userToUpdate.getId());
+    public void update(User partialUserToUpdate) {
+        var savedUser = findById(partialUserToUpdate.getId());
+        assertEmailIsUnique(partialUserToUpdate.getEmail(), partialUserToUpdate.getId());
+
+        var password = partialUserToUpdate.getPassword() == null ? savedUser.getPassword() : partialUserToUpdate.getPassword();
+        var roles = savedUser.getRoles();
+
+        var userToUpdate = partialUserToUpdate.withRoles(roles).withPassword(password);
+
         repository.save(userToUpdate);
     }
 

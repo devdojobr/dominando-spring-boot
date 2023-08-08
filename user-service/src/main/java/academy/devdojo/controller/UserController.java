@@ -45,7 +45,7 @@ public class UserController {
             responseCode = "200",
             content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserGetResponse.class))))
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserGetResponse>> list() {
         log.debug("Request received to list all users");
 

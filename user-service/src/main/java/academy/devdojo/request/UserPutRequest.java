@@ -19,4 +19,5 @@ public class UserPutRequest {
     private String lastName;
     @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "The email format is not valid")
     private String email;
+    private String password;
 }
