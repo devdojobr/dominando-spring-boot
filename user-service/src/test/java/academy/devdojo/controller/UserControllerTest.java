@@ -2,7 +2,9 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.exception.NotFoundException;
+import academy.devdojo.mapper.PasswordEncoderMapper;
 import academy.devdojo.mapper.UserMapperImpl;
 import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -31,7 +34,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
-@Import({UserMapperImpl.class, FileUtils.class, UserUtils.class})
+@Import({UserMapperImpl.class, FileUtils.class, UserUtils.class, SecurityConfig.class})
+@WithMockUser(roles = "USER")
 class UserControllerTest {
     private static final String URL = "/v1/users";
     private static final String EMAIL = "email";
@@ -42,6 +46,8 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+    @MockBean
+    private PasswordEncoderMapper passwordEncoderMapper;
     @Autowired
     private FileUtils fileUtils;
     @Autowired
@@ -50,6 +56,7 @@ class UserControllerTest {
     @Test
     @DisplayName("findAll() returns a list with all users")
     @Order(1)
+    @WithMockUser(authorities = "ADMIN")
     void findAll_ReturnsAllUsers_WhenSuccessful() throws Exception {
         var response = fileUtils.readResourceFile("user/get-all-users-200.json");
         BDDMockito.when(userService.findAll()).thenReturn(userUtils.newUserList());
@@ -64,6 +71,7 @@ class UserControllerTest {
     @Test
     @DisplayName("findAll() returns an empty list when no users are found")
     @Order(2)
+    @WithMockUser(authorities = "ADMIN")
     void findAll_ReturnsEmptyList_WhenNoUsersAreFound() throws Exception {
         var response = fileUtils.readResourceFile("user/get-all-users-empty-list-200.json");
         BDDMockito.when(userService.findAll()).thenReturn(Collections.emptyList());
