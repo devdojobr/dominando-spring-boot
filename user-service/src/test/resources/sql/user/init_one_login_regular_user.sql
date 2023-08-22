@@ -1,0 +1,1 @@
+INSERT INTO user (first_name,last_name, email, roles, password) values ('Ichigo','Kurosaki','ichigo.kurosaki@bleach.com', 'USER', '{bcrypt}$2a$10$Vi4DMEJh7nKj3AjC6qk8C.hyAGXNPZsdcaRnO0LBBH7OdJsKArhH.');

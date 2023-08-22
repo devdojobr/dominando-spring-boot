@@ -17,12 +17,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRestTemplateConfig.class)
+@Sql(value = "/sql/user/init_one_login_regular_user.sql")
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 class ProfileControllerIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
     @Autowired
