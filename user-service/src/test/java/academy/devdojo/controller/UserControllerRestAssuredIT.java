@@ -19,23 +19,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Stream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RestAssuredConfig.class)
@@ -46,7 +39,8 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
     @SpyBean
     @Autowired
     private UserRepository repository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     @Qualifier(value = "requestSpecificationRegularUser")
     private RequestSpecification requestSpecificationRegularUser;
@@ -227,8 +221,8 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
         var request = fileUtils.readResourceFile("user/put-request-user-200.json");
         var users = repository.findAll();
         Assertions.assertThat(users).hasSize(1);
-
-        request = request.replace("1", users.get(0).getId().toString());
+        var user = users.get(0);
+        request = request.replace("1", user.getId().toString());
 
         RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON)
                 .log().all()
@@ -238,6 +232,11 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
                 .then()
                 .log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+
+        var updatedUser = repository.findById(user.getId()).orElseThrow(() -> new NotFoundException("User Not Found"));
+        var password = updatedUser.getPassword();
+
+        Assertions.assertThat(passwordEncoder.matches("pikachu", password)).isTrue();
     }
 
     @Test
@@ -312,7 +311,7 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
                 .log().all()
                 .body(request)
                 .when()
-                .post(URL)
+                .put(URL)
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .log().all()

@@ -1,1 +1,44 @@
-{"timestamp":"2023-07-12T12:26:39.531+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='userPostRequest'. Error count: 1","errors":[{"codes":["Email.userPostRequest.email","Email.email","Email.java.lang.String","Email"],"arguments":[{"codes":["userPostRequest.email","email"],"arguments":null,"defaultMessage":"email","code":"email"},[],{"arguments":null,"defaultMessage":"^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,8}$","codes":["^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,8}$"]}],"defaultMessage":"The email format is not valid","objectName":"userPostRequest","field":"email","rejectedValue":"william.suane@devdojo.a","bindingFailure":false,"code":"Email"}],"path":"/v1/users"}
+{
+  "timestamp": "2023-08-22T13:26:18.460+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed for object='userPutRequest'. Error count: 1",
+  "errors": [
+    {
+      "codes": [
+        "Email.userPutRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [
+
+        ],
+        {
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+          "arguments": null,
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPutRequest",
+      "field": "email",
+      "rejectedValue": "william.suane@devdojo.a",
+      "bindingFailure": false,
+      "code": "Email"
+    }
+  ],
+  "path": "/v1/users"
+}

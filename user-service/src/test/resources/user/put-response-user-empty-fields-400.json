@@ -1,1 +1,119 @@
-{"timestamp":"2023-07-12T12:26:39.197+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='userPostRequest'. Error count: 3","errors":[{"codes":["Email.userPostRequest.email","Email.email","Email.java.lang.String","Email"],"arguments":[{"codes":["userPostRequest.email","email"],"arguments":null,"defaultMessage":"email","code":"email"},[],{"arguments":null,"defaultMessage":"^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,8}$","codes":["^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,8}$"]}],"defaultMessage":"The email format is not valid","objectName":"userPostRequest","field":"email","rejectedValue":"","bindingFailure":false,"code":"Email"},{"codes":["NotBlank.userPostRequest.firstName","NotBlank.firstName","NotBlank.java.lang.String","NotBlank"],"arguments":[{"codes":["userPostRequest.firstName","firstName"],"arguments":null,"defaultMessage":"firstName","code":"firstName"}],"defaultMessage":"The field 'firstName' is required","objectName":"userPostRequest","field":"firstName","rejectedValue":"","bindingFailure":false,"code":"NotBlank"},{"codes":["NotBlank.userPostRequest.lastName","NotBlank.lastName","NotBlank.java.lang.String","NotBlank"],"arguments":[{"codes":["userPostRequest.lastName","lastName"],"arguments":null,"defaultMessage":"lastName","code":"lastName"}],"defaultMessage":"The field 'lastName' is required","objectName":"userPostRequest","field":"lastName","rejectedValue":"","bindingFailure":false,"code":"NotBlank"}],"path":"/v1/users"}
+{
+  "timestamp": "2023-08-22T13:26:17.883+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed for object='userPutRequest'. Error count: 4",
+  "errors": [
+    {
+      "codes": [
+        "Email.userPutRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [
+
+        ],
+        {
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+          "arguments": null,
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPutRequest",
+      "field": "email",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "Email"
+    },
+    {
+      "codes": [
+        "NotBlank.userPutRequest.firstName",
+        "NotBlank.firstName",
+        "NotBlank.java.lang.String",
+        "NotBlank"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.firstName",
+            "firstName"
+          ],
+          "arguments": null,
+          "defaultMessage": "firstName",
+          "code": "firstName"
+        }
+      ],
+      "defaultMessage": "The field 'firstName' is required",
+      "objectName": "userPutRequest",
+      "field": "firstName",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "NotBlank"
+    },
+    {
+      "codes": [
+        "NotBlank.userPutRequest.lastName",
+        "NotBlank.lastName",
+        "NotBlank.java.lang.String",
+        "NotBlank"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.lastName",
+            "lastName"
+          ],
+          "arguments": null,
+          "defaultMessage": "lastName",
+          "code": "lastName"
+        }
+      ],
+      "defaultMessage": "The field 'lastName' is required",
+      "objectName": "userPutRequest",
+      "field": "lastName",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "NotBlank"
+    },
+    {
+      "codes": [
+        "NotNull.userPutRequest.id",
+        "NotNull.id",
+        "NotNull.java.lang.Long",
+        "NotNull"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.id",
+            "id"
+          ],
+          "arguments": null,
+          "defaultMessage": "id",
+          "code": "id"
+        }
+      ],
+      "defaultMessage": "must not be null",
+      "objectName": "userPutRequest",
+      "field": "id",
+      "rejectedValue": null,
+      "bindingFailure": false,
+      "code": "NotNull"
+    }
+  ],
+  "path": "/v1/users"
+}
