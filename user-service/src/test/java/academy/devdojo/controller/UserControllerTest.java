@@ -58,7 +58,7 @@ class UserControllerTest {
     @Order(1)
     @WithMockUser(authorities = "ADMIN")
     void findAll_ReturnsAllUsers_WhenSuccessful() throws Exception {
-        var response = fileUtils.readResourceFile("user/get-all-users-200.json");
+        var response = fileUtils.readResourceFile("user/get-all-three-users-200.json");
         BDDMockito.when(userService.findAll()).thenReturn(userUtils.newUserList());
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))

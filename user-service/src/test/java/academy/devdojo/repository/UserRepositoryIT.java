@@ -39,5 +39,4 @@ class UserRepositoryIT extends IntegrationTestContainers {
         Assertions.assertThat(users).isNotEmpty();
     }
 
-
 }
