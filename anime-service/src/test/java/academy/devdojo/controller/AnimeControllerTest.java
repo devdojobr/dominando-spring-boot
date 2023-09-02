@@ -2,6 +2,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.AnimeUtils;
 import academy.devdojo.commons.FileUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.domain.Anime;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.AnimeMapperImpl;
@@ -21,6 +22,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -34,7 +38,9 @@ import java.util.stream.Stream;
 
 @WebMvcTest(AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class})
+@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, SecurityConfig.class,
+        BCryptPasswordEncoder.class})
+@WithMockUser
 class AnimeControllerTest {
     private static final String URL = "/v1/animes";
     private static final String NAME = "name";
@@ -61,6 +67,18 @@ class AnimeControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
+
+    }
+
+    @Test
+    @DisplayName("findAll() returns 403 when role is not USER")
+    @Order(1)
+    @WithMockUser(roles = "MANAGER")
+    void findAll_Returns403_WhenRoleIsNotUser() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
 
     }
     @Test

@@ -2,6 +2,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProducerUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.ProducerMapperImpl;
 import academy.devdojo.repository.ProducerData;
@@ -21,6 +22,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -39,7 +42,9 @@ import static academy.devdojo.util.Constants.PRODUCER_NOT_FOUND_UPDATED;
 @WebMvcTest(ProducerController.class)
 //@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class})
+@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class, SecurityConfig.class,
+        BCryptPasswordEncoder.class})
+@WithMockUser
 class ProducerControllerTest {
     private static final String URL = "/v1/producers";
     private static final String NAME = "name";
@@ -64,6 +69,18 @@ class ProducerControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
+
+    }
+
+    @Test
+    @DisplayName("findAll() returns 403 when role is not USER")
+    @Order(1)
+    @WithMockUser(roles = "MANAGER")
+    void findAll_Returns403_WhenRoleIsNotUser() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
 
     }
 

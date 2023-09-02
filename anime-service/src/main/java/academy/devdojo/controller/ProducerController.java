@@ -6,6 +6,7 @@ import academy.devdojo.request.ProducerPutRequest;
 import academy.devdojo.response.ProducerGetResponse;
 import academy.devdojo.response.ProducerPostResponse;
 import academy.devdojo.service.ProducerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"v1/producers", "v1/producers/"})
+@RequestMapping(path = {"v1/producers"})
 @Log4j2
 @RequiredArgsConstructor
+@SecurityRequirement(name = "basicAuth")
 public class ProducerController {
     private final ProducerMapper mapper;
     private final ProducerService producerService;
