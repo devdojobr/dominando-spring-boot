@@ -1,21 +1,20 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.api.AnimeControllerApi;
+import academy.devdojo.dto.*;
 import academy.devdojo.mapper.AnimeMapper;
-import academy.devdojo.request.AnimePostRequest;
-import academy.devdojo.request.AnimePutRequest;
-import academy.devdojo.response.AnimeGetResponse;
-import academy.devdojo.response.AnimePostResponse;
 import academy.devdojo.service.AnimeService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @SecurityRequirement(name = "basicAuth")
-public class AnimeController {
+public class AnimeController implements AnimeControllerApi {
     private final AnimeMapper mapper;
     private final AnimeService animeService;
 
@@ -40,12 +39,19 @@ public class AnimeController {
         return ResponseEntity.ok(animeGetResponses);
     }
 
+    @Override
     @GetMapping("/paginated")
-    public ResponseEntity<Page<AnimeGetResponse>> listAllAnimePaginated(@ParameterObject Pageable pageable) {
+    public ResponseEntity<PageAnimeGetResponse> listAllAnimePaginated(
+            @Min(0) @Parameter(name = "page", description = "Zero-based page index (0..N)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @Min(1) @Parameter(name = "size", description = "The size of the page to be returned", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
+            @Parameter(name = "sort", description = "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.", in = ParameterIn.QUERY)
+            @Valid @RequestParam(value = "sort", required = false) List<String> sort,
+            @ParameterObject final Pageable pageable
+    ) {
         log.info("Request received to list all animes paginated");
 
-        var pageAnimeGetResponse = animeService.findAllPageable(pageable).map(mapper::toAnimeGetResponse);
-
+        var jpaPageAnimeGetResponse = animeService.findAllPageable(pageable);
+        var pageAnimeGetResponse = mapper.toPageAnimeGetResponse(jpaPageAnimeGetResponse);
         return ResponseEntity.ok(pageAnimeGetResponse);
     }
 

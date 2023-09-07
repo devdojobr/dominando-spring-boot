@@ -167,6 +167,7 @@ paths:
       tags:
       - anime-controller
       operationId: listAllAnimePaginated
+      x-spring-paginated: true
       parameters:
       - name: page
         in: query
