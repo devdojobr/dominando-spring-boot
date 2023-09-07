@@ -27,7 +27,7 @@ public class ProducerController {
     private final ProducerService producerService;
 
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>> findAll(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<ProducerGetResponse>> findAllProducer(@RequestParam(required = false) String name) {
         log.debug("Request received to list all producers, param name '{}'", name);
         var producers = producerService.findAll(name);
 
@@ -38,7 +38,7 @@ public class ProducerController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
             headers = "x-api-version=v1")
-    public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest request) {
+    public ResponseEntity<ProducerPostResponse> saveProducer(@RequestBody @Valid ProducerPostRequest request) {
         var producer = mapper.toProducer(request);
 
         producer = producerService.save(producer);
@@ -49,7 +49,7 @@ public class ProducerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProducerById(@PathVariable Long id) {
         log.info("Request received to delete the producer by id '{}'", id);
 
         producerService.delete(id);
@@ -58,7 +58,7 @@ public class ProducerController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
+    public ResponseEntity<Void> updateProducer(@RequestBody @Valid ProducerPutRequest request) {
         log.info("Request received to update the producer '{}'", request);
 
         var producerToUpdate = mapper.toProducer(request);

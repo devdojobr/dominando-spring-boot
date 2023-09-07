@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Log4j2
 @EnableMethodSecurity
 public class SecurityConfig {
-    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/csrf"};
+    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/v3/**", "/swagger-ui/**", "/csrf"};
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
