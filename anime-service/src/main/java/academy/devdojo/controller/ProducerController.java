@@ -1,10 +1,11 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.api.ProducerControllerApi;
+import academy.devdojo.dto.ProducerGetResponse;
+import academy.devdojo.dto.ProducerPostRequest;
+import academy.devdojo.dto.ProducerPostResponse;
+import academy.devdojo.dto.ProducerPutRequest;
 import academy.devdojo.mapper.ProducerMapper;
-import academy.devdojo.request.ProducerPostRequest;
-import academy.devdojo.request.ProducerPutRequest;
-import academy.devdojo.response.ProducerGetResponse;
-import academy.devdojo.response.ProducerPostResponse;
 import academy.devdojo.service.ProducerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @SecurityRequirement(name = "basicAuth")
-public class ProducerController {
+public class ProducerController implements ProducerControllerApi {
     private final ProducerMapper mapper;
     private final ProducerService producerService;
 
@@ -36,8 +37,7 @@ public class ProducerController {
         return ResponseEntity.ok(producerGetResponses);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
-            headers = "x-api-version=v1")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProducerPostResponse> saveProducer(@RequestBody @Valid ProducerPostRequest request) {
         var producer = mapper.toProducer(request);
 

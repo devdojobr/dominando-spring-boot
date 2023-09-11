@@ -52,7 +52,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>6.3.0</version>
+                <version>7.0.0</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -71,6 +71,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <useTags>true</useTags>
                                 <documentationProvider>springdoc</documentationProvider>
+                                <implicitHeaders>true</implicitHeaders>
                             </configOptions>
                         </configuration>
                     </execution>

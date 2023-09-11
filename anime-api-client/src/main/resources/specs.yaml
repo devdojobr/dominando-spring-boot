@@ -231,8 +231,10 @@ components:
         id:
           type: integer
           format: int64
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotNull()"
         name:
           type: string
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank(message=\"The field 'name' is required\")"
     AnimePutRequest:
       required:
       - id
@@ -252,6 +254,7 @@ components:
       properties:
         name:
           type: string
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank(message=\"The field 'name' is required\")"
     ProducerPostResponse:
       type: object
       properties:
