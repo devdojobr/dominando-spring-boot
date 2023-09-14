@@ -20,3 +20,11 @@ logging:
   level:
     root: INFO
     academy.devdojo: INFO
+
+management:
+  server:
+    port: 8989
+  endpoints:
+    web:
+      exposure:
+        include: "*"
