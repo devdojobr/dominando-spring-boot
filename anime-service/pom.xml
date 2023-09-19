@@ -15,7 +15,13 @@
 
     <name>Anime Service</name>
     <description>Dominando Spring Boot: Do Zero ao Profissional</description>
-
+    <properties>
+        <jib-maven-plugin.image>eclipse-temurin:17-jre</jib-maven-plugin.image>
+        <docker.repo.url>williamsuane</docker.repo.url>
+        <docker.repo.project>${project.artifactId}</docker.repo.project>
+        <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
+        <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>academy.devdojo</groupId>
@@ -37,5 +43,28 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>${jib-maven-plugin.image}</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.name}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <format>OCI</format>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
