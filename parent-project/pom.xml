@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>academy.devdojo</groupId>
     <artifactId>parent-project</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -27,7 +27,7 @@
         <testcontainers-bom.version>1.18.3</testcontainers-bom.version>
         <rest-assured.version>5.3.1</rest-assured.version>
         <json-unit-assertj.version>3.0.0</json-unit-assertj.version>
-        <jib-maven-plugin.image>eclipse-temurin:17-jre</jib-maven-plugin.image>
+        <jib-maven-plugin.image>gcr.io/distroless/java17-debian11</jib-maven-plugin.image>
         <docker.repo.url>williamsuane</docker.repo.url>
         <docker.repo.project>${project.artifactId}</docker.repo.project>
         <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>

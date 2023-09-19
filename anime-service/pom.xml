@@ -5,7 +5,7 @@
     <parent>
         <groupId>academy.devdojo</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -15,6 +15,9 @@
 
     <name>Anime Service</name>
     <description>Dominando Spring Boot: Do Zero ao Profissional</description>
+    <properties>
+        <anime-api-client.version>1.1-SNAPSHOT</anime-api-client.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -33,7 +36,7 @@
         <dependency>
             <groupId>academy.devdojo</groupId>
             <artifactId>anime-api-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${anime-api-client.version}</version>
         </dependency>
     </dependencies>
 
