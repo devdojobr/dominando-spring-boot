@@ -17,29 +17,29 @@ services:
     volumes:
       - devdojo-db:/var/lib/mysql
 
-  prometheus:
-    image: prom/prometheus:v2.47.0
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-
-  grafana:
-    image: grafana/grafana:10.1.2
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./grafana/datasources:/etc/grafana/provisioning/datasources
-
-  anime-service:
-    image: williamsuane/anime-service:0.0.1-SNAPSHOT
-    container_name: anime-service
-    ports:
-      - "8080:8080"
-    environment:
-      <<: *database-variables
+#  prometheus:
+#    image: prom/prometheus:v2.47.0
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#
+#  grafana:
+#    image: grafana/grafana:10.1.2
+#    container_name: grafana
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+#
+#  anime-service:
+#    image: williamsuane/anime-service:0.0.1-SNAPSHOT
+#    container_name: anime-service
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      <<: *database-variables
 
 volumes:
   devdojo-db:

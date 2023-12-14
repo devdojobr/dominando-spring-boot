@@ -20,3 +20,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+brasil-api:
+  base-url: ${BRASIL_API_BASE_URL:https://brasilapi.com.br/api}
+  uri: ${BRASIL_API_URI:/cep/v1/{cep}}
