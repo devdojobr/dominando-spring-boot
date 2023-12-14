@@ -6,12 +6,12 @@
     <parent>
         <groupId>academy.devdojo</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>commons-core</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <build>
