@@ -19,3 +19,7 @@ spring:
     properties:
       hibernate:
         globally_quoted_identifiers: true
+
+brasil-api:
+  base-url: http://localhost:8085/api
+  uri: /cep/v1/{cep}
