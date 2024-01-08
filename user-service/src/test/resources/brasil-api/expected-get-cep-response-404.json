@@ -1,0 +1,1 @@
+{"status":404,"message":"CepErrorResponse[name=CepPromiseError, message=Todos os serviços de CEP retornaram erro., type=service_error, errors=[CepInnerErrorResponse[name=ServiceError, message=CEP INVÁLIDO, service=correios], CepInnerErrorResponse[name=ServiceError, message=CEP não encontrado na base do ViaCEP., service=viacep]]]"}
